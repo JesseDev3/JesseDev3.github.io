@@ -5,50 +5,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JLabs</title>
-    <link rel="stylesheet" href="">   
-</style>
+    <link rel="stylesheet" href="jessedev3.github.io/home.css">
 </head>
 <body>
     <div class="banner">
         <h1>Welcome to JLabs</h1>
     </div>
     <header>
-
+        <div class="logo">
+            <img src="images/logo.png" alt="JLabs Logo">
+        </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." onkeypress="if(event.key === 'Enter') { /* Add your search logic here */ }">
+            </div> 
+            <nav>
+                <div class="cart-dropdown">
+                    <button id="cart-trigger">Cart</button>
+                    <div id="cart-menu" class="cart-dropdown-menu">
+                        <ul>
+                            <li>Item 1</li>
+                            <li>Item 2</li>
+                            <li>Item 3</li>
+                            <li><strong>Total: $0.00</strong></li>
+                        </ul>
+                    </div>
+                </div>   
+        </nav> 
     </header>
     <main>
-    <div id="root"></div>
 
     </main>
     <footer>
         &copy; 2025 JLabs. All rights reserved.
     </footer>
     <script>
+        const dropdownTriggers = document.querySelectorAll('[id^="dropdown-trigger"]');
+        const dropdownMenus = document.querySelectorAll('[id^="dropdown-menu"]');
 
-    /* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></scrip */
+        dropdownTriggers.forEach((trigger, index) => {
+            const menu = dropdownMenus[index];
 
+            trigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                const isVisible = menu.style.display === 'block';
+                dropdownMenus.forEach((m) => (m.style.display = 'none')); // Close other menus
+                menu.style.display = isVisible ? 'none' : 'block';
+            });
+        });
 
-                const dropdownTriggers = document.querySelectorAll('[id^="dropdown-trigger"]');
-const dropdownMenus = document.querySelectorAll('[id^="dropdown-menu"]');
+        document.addEventListener('click', (event) => {
+            dropdownTriggers.forEach((trigger, index) => {
+                const menu = dropdownMenus[index];
+                if (!trigger.contains(event.target) && !menu.contains(event.target)) {
+                    menu.style.display = 'none';
+                }
+            });
+        });
 
-dropdownTriggers.forEach((trigger, index) => {
-    const menu = dropdownMenus[index];
+        // Cart dropdown logic
+        const cartTrigger = document.getElementById('cart-trigger');
+        const cartMenu = document.getElementById('cart-menu');
 
-    trigger.addEventListener('click', (event) => {
-        event.preventDefault();
-        const isVisible = menu.style.display === 'block';
-        dropdownMenus.forEach((m) => (m.style.display = 'none')); // Close other menus
-        menu.style.display = isVisible ? 'none' : 'block';
-    });
-});
+        cartTrigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            const isVisible = cartMenu.style.display === 'block';
+            cartMenu.style.display = isVisible ? 'none' : 'block';
+        });
 
-document.addEventListener('click', (event) => {
-    dropdownTriggers.forEach((trigger, index) => {
-        const menu = dropdownMenus[index];
-        if (!trigger.contains(event.target) && !menu.contains(event.target)) {
-            menu.style.display = 'none';
-        }
-    });
-});
+        document.addEventListener('click', (event) => {
+            if (!cartTrigger.contains(event.target) && !cartMenu.contains(event.target)) {
+                cartMenu.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
